@@ -56,7 +56,8 @@ Parameters:
 
 #### Hostsharing Database
 
-The module __hsdatabase.js__ ensures that a particular account exists.
+The module __hsdatabase.js__ ensures that a particular database and database 
+user exist. Database and user have the same name.
 Parameters:
 * __instance__ : "mysql" or "postgresql"
 * __name__ : database and database-user name (including package prefix)
@@ -65,7 +66,7 @@ Parameters:
 
 #### Hostsharing Domain
 
-The module __hsdomain.js__ ensures that a particular account exists.
+The module __hsdomain.js__ ensures that a particular domain exists.
 Parameters:
 * __name__ : domain name
 * __owner__ : domain admin user 
