@@ -17,14 +17,14 @@ Zum Beispiel:
 ### Inventory
 
 Für den Aufruf von Ansible benötigt man ein sogenanntes __Inventory__, ein
-Verzeichnis der Server oder Pakete oder allegemeiner der Installationen.
+Verzeichnis der Server oder Pakete oder (allgemeiner) der Installationen.
 
 Ein Beispiel für ein Inventory:
 
 >
 > [wordpress]
 > xyz00 ansible_ssh_host=xyz00.hostsharing.net ansible_ssh_user=xyz00 pac=xyz00 \\
->   domain=example.com user=wp password=nocheingeheimwort
+>   domain=example.com user=wordpress password=nocheingeheimwort
 >
 > [joomla]
 > xyz00 ansible_ssh_host=xyz00.hostsharing.net ansible_ssh_user=xyz00 pac=xyz00 \\
