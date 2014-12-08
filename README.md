@@ -9,8 +9,8 @@ Darin muss das Passwort des jeweiligen Paket-Admins abgelegt sein.
 
 Zum Beispiel:
 
-   xyz00@h99:~$ cat .hsadmin.properties 
-   xyz00.passWord=geheimwort
+    xyz00@h99:~$ cat .hsadmin.properties 
+    xyz00.passWord=geheimwort
 
 ### Inventory
 
@@ -20,22 +20,22 @@ Verzeichnis der Server oder Pakete oder (allgemeiner) der Installationen.
 Ein Beispiel für ein Inventory:
 
 
-   [wordpress]
-   xyz00 ansible_ssh_host=xyz00.hostsharing.net ansible_ssh_user=xyz00 pac=xyz00 \\
+    [wordpress]
+    xyz00 ansible_ssh_host=xyz00.hostsharing.net ansible_ssh_user=xyz00 pac=xyz00 \\
         domain=example.com user=wordpress password=nocheingeheimwort
    
-   [joomla]
-   xyz00 ansible_ssh_host=xyz00.hostsharing.net ansible_ssh_user=xyz00 pac=xyz00 \\
-       domain=example.org user=joomla password=wiedereingeheimwort
+    [joomla]
+    xyz00 ansible_ssh_host=xyz00.hostsharing.net ansible_ssh_user=xyz00 pac=xyz00 \\
+        domain=example.org user=joomla password=wiedereingeheimwort
 
 Installation von Wordpress mit:
 
-   ansible-playbook -i /pfad/zum/inventory wordpress.play
+    ansible-playbook -i /pfad/zum/inventory wordpress.play
 
 Alternativ kann das Inventory über die Environment-Variable "ANSIBLE_HOSTS"
 definiert werden. Zum Beispiel:
 
-   export ANSIBLE_HOSTS=/home/user/.ansible_pacs 
+    export ANSIBLE_HOSTS=/home/user/.ansible_pacs 
 
 ### Modules
 
