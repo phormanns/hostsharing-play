@@ -3,21 +3,21 @@
 Ansible Modules and Playbooks for use with Hostsharing webhosting 
 packages.
 
-Voraussetzung für die Nutzung dieser Module ist das Anlegen einer Datei
-".hsadmin.properties" im Heimatverzeichnis des/der Paket-Admins.
-Darin muss das Passwort des jeweiligen Paket-Admins abgelegt sein.
+Prerequisite for the use of these modules is to create a file
+".hsadmin.properties" in the home directory of the package admins.
+In it, you have to define the password of the package admin.
 
-Zum Beispiel:
+For example:
 
     xyz00@h99:~$ cat .hsadmin.properties 
     xyz00.passWord=geheimwort
 
 ### Inventory
 
-Für den Aufruf von Ansible benötigt man ein sogenanntes __Inventory__, ein
-Verzeichnis der Server oder Pakete oder (allgemeiner) der Installationen.
+To call Ansible you need a so-called __inventory__. This is a list of 
+servers or packages, or (more generally) of installations.
 
-Ein Beispiel für ein Inventory:
+A Sample-Inventory:
 
 
     [wordpress]
@@ -28,12 +28,12 @@ Ein Beispiel für ein Inventory:
     xyz00 ansible_ssh_host=xyz00.hostsharing.net ansible_ssh_user=xyz00 pac=xyz00 \\
         domain=example.org user=joomla password=wiedereingeheimwort
 
-Installation von Wordpress mit:
+Installation of wordpress by:
 
     ansible-playbook -i /pfad/zum/inventory wordpress.play
 
-Alternativ kann das Inventory über die Environment-Variable "ANSIBLE_HOSTS"
-definiert werden. Zum Beispiel:
+Alternatively, the inventory is defined via an environment 
+variable "ANSIBLE_HOSTS". For example:
 
     export ANSIBLE_HOSTS=/home/user/.ansible_pacs 
 
