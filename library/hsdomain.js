@@ -44,7 +44,7 @@ function hsdomain(args) {
       }	  
     }
   } else {
-    if (existingUsers.length > 0) {
+    if (existingDomains.length > 0) {
       domain.remove({where:{name:domainname}});
       print("changed=True msg=removed");
     } else {
