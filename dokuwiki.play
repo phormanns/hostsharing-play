@@ -1,0 +1,41 @@
+---
+- hosts: dokuwiki
+  vars:
+    version: 2015-08-10a
+  tasks:
+  - name: ensure user exists
+    hsuser.js: name="{{pac}}-{{user}}" password="{{password}}" exists="true"
+  - name: setup domain    
+    hsdomain.js: name="{{domain}}" owner="{{pac}}-{{user}}" exists="true"
+  - name: download dokuwiki tarball
+    sudo: yes
+    sudo_user: "{{pac}}-{{user}}"
+    get_url: url=http://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz dest=/tmp/dokuwiki.tgz 
+  - name: extract tarball
+    sudo: yes
+    sudo_user: "{{pac}}-{{user}}"
+    unarchive: copy=no src="/tmp/dokuwiki.tgz" dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/" creates="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/index.php"
+  - name: move to www
+    sudo: yes
+    sudo_user: "{{pac}}-{{user}}"
+    command: rm -rf www chdir="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs" creates="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/index.php"
+  - name: move to www
+    sudo: yes
+    sudo_user: "{{pac}}-{{user}}"
+    command: mv dokuwiki-{{version}} www chdir="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs" creates="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/index.php"
+  - name: upload acl.auth.php config
+    sudo: yes
+    sudo_user: "{{pac}}-{{user}}"
+    template: dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/conf/acl.auth.php" src="templates/dokuwiki/acl.auth.php" mode=0600
+  - name: upload local.php config
+    sudo: yes
+    sudo_user: "{{pac}}-{{user}}"
+    template: dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/conf/local.php" src="templates/dokuwiki/local.php" mode=0600
+  - name: upload plugins.local.php config
+    sudo: yes
+    sudo_user: "{{pac}}-{{user}}"
+    template: dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/conf/plugins.local.php" src="templates/dokuwiki/plugins.local.php" mode=0600
+  - name: upload users.auth.php config
+    sudo: yes
+    sudo_user: "{{pac}}-{{user}}"
+    template: dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/conf/users.auth.php" src="templates/dokuwiki/users.auth.php" mode=0600

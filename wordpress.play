@@ -10,7 +10,7 @@
   - name: download wordpress tarball
     sudo: yes
     sudo_user: "{{pac}}-{{user}}"
-    get_url: url=https://wordpress.org/latest.tar.gz dest=/tmp/wordpress.tgz sha256sum=94ce5402f6ab5662c37916825f7725c517f6f9328ff3de7aaf2840551ac32f16
+    get_url: url=https://wordpress.org/latest.tar.gz dest=/tmp/wordpress.tgz
   - name: extract tarball
     sudo: yes
     sudo_user: "{{pac}}-{{user}}"
