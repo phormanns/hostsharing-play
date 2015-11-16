@@ -12,13 +12,14 @@
   sudo: yes
   sudo_user: "{{pac}}-{{user}}"
   get_url: >
-    url=http://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz 
-    dest=/tmp/dokuwiki.tgz 
+    url=http://download.dokuwiki.org/src/dokuwiki/dokuwiki-{{version}}.tgz
+    dest=/tmp/dokuwiki-{{version}}.tgz 
 - name: extract tarball
   sudo: yes
   sudo_user: "{{pac}}-{{user}}"
   unarchive: >
-    copy=no src="/tmp/dokuwiki.tgz" 
+    copy=no 
+    src="/tmp/dokuwiki-{{version}}.tgz" 
     dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/" 
     creates="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/index.php"
 - name: move to www

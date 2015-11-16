@@ -5,12 +5,15 @@
 - name: download wordpress tarball
   sudo: yes
   sudo_user: "{{pac}}-{{user}}"
-  get_url: url=https://wordpress.org/latest.tar.gz dest=/tmp/wordpress.tgz
+  get_url: >
+    url=https://wordpress.org/wordpress-{{version}}.tar.gz
+    dest=/tmp/wordpress-{{version}}.tgz
 - name: extract tarball
   sudo: yes
   sudo_user: "{{pac}}-{{user}}"
   unarchive: >
-    copy=no src="/tmp/wordpress.tgz" 
+    copy=no 
+    src="/tmp/wordpress-{{version}}.tgz" 
     dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/" 
     creates="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/index.php"
 - name: move to www
