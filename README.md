@@ -20,14 +20,8 @@ servers or packages, or (more generally) of installations.
 A Sample-Inventory:
 
 
-    [wordpress]
-    xyz00 ansible_ssh_host=xyz00.hostsharing.net ansible_ssh_user=xyz00 pac=xyz00 \\
-        domain=example.com user=wordpress password=nocheingeheimwort
+    xyz00 ansible_ssh_host=xyz00.hostsharing.net ansible_ssh_user=xyz00 pac=xyz00 
    
-    [joomla]
-    xyz00 ansible_ssh_host=xyz00.hostsharing.net ansible_ssh_user=xyz00 pac=xyz00 \\
-        domain=example.org user=joomla password=wiedereingeheimwort
-
 Installation of wordpress by:
 
     ansible-playbook -i /pfad/zum/inventory wordpress.play

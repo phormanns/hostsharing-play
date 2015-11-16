@@ -1,0 +1,15 @@
+  - include: wordpress.yml
+    vars:
+        user: "blog"
+        password: "geheimnis1"
+        domain: "example-blog.com"
+  - include: dokuwiki.yml
+    vars:
+        user: "wiki"
+        password: "geheimnis2"
+        domain: "example-wiki.com"
+  - include: dokuwiki.yml
+    vars:
+        user: "doku"
+        password: "geheimnis3"
+        domain: "example-doku.com"

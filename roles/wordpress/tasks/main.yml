@@ -1,0 +1,31 @@
+- name: ensure user exists
+  hsuser.js: name="{{pac}}-{{user}}" password="{{password}}" exists="true"
+- name: setup domain    
+  hsdomain.js: name="{{domain}}" owner="{{pac}}-{{user}}" exists="true"
+- name: download wordpress tarball
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  get_url: url=https://wordpress.org/latest.tar.gz dest=/tmp/wordpress.tgz
+- name: extract tarball
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  unarchive: >
+    copy=no src="/tmp/wordpress.tgz" 
+    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/" 
+    creates="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/index.php"
+- name: move to www
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  command: >
+    bash -c "rm -rf www && mv wordpress www"
+    chdir="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs" 
+    creates="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/index.php"
+- name: ensure database exists
+  hsdatabase.js: name="{{pac}}_{{user}}" password="{{password}}" instance="mysql" exists="true"
+- name: upload wp-config.php config
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  template: >
+    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/wp-config.php" 
+    src="wp-config.php" 
+    mode=0600
