@@ -1,0 +1,9 @@
+compress
+/home/pacs/{{pac}}/users/{{user}}/tomcat/logs/monit.log {
+  rotate 2
+  monthly
+}
+/home/pacs/{{pac}}/users/{{user}}/tomcat/logs/catalina.out {
+  rotate 5
+  daily
+}

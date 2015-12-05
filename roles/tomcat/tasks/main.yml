@@ -1,0 +1,106 @@
+- name: ensure user exists
+  hsuser.js: >
+    name="{{pac}}-{{user}}" 
+    password="{{password}}" 
+    exists="true"
+- name: setup domain    
+  hsdomain.js: >
+    name="{{domain}}" 
+    owner="{{pac}}-{{user}}"  
+    exists="true"
+- name: Creating target directory
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  file: >
+    path="/home/pacs/{{pac}}/users/{{user}}/tomcat" 
+    state=directory
+- name: Creating tomcat directory structure
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  file: >
+    path="/home/pacs/{{pac}}/users/{{user}}/tomcat/{{item}}"  
+    state=directory
+  with_items:
+    - bin
+    - conf
+    - conf/Catalina
+    - conf/Catalina/{{domain}}
+    - lib
+    - logs
+    - temp
+    - webapps
+    - work
+- name: Copy tomcat/bin files
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  command: >
+    cp "/usr/share/tomcat7/bin/{{item}}" "/home/pacs/{{pac}}/users/{{user}}/tomcat/bin/"
+    creates="/home/pacs/{{pac}}/users/{{user}}/tomcat/bin/{{item}}"
+  with_items:
+    - startup.sh
+    - shutdown.sh
+    - catalina.sh
+- name: Copy tomcat/conf files
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  command: >
+    cp "/usr/share/tomcat7/skel/conf/{{item}}" "/home/pacs/{{pac}}/users/{{user}}/tomcat/conf/"
+    creates="/home/pacs/{{pac}}/users/{{user}}/tomcat/conf/{{item}}"
+  with_items:
+    - web.xml
+    - logging.properties
+    - catalina.properties
+- name: Upload templates to tomcat/conf
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  template: >
+    src="{{item}}"
+    dest="/home/pacs/{{pac}}/users/{{user}}/tomcat/conf/{{item}}"
+    mode=0600
+  with_items:
+    - server.xml
+    - tomcat-users.xml
+    - context.xml
+- name: Upload templates to tomcat/bin
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  template: >
+    src="{{item}}"
+    dest="/home/pacs/{{pac}}/users/{{user}}/tomcat/bin/{{item}}"
+    mode=0700
+  with_items:
+    - setenv.sh
+- name: Configure monit
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  template: >
+    src="monitrc"
+    dest="/home/pacs/{{pac}}/users/{{user}}/.monitrc"
+    mode=0600
+- name: Start at reboot
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  cron: >
+    name="start monit at reboot"
+    job="/usr/bin/monit -c /home/pacs/{{pac}}/users/{{user}}/.monitrc > /dev/null"
+    special_time=reboot
+    user="{{pac}}-{{user}}"
+    state=present
+- name: Configure logrotate
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  template: >
+    src="logrotate"
+    dest="/home/pacs/{{pac}}/users/{{user}}/.logrotate"
+    mode=0600
+- name: Rotate daily
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  cron: >
+    name="daily logrotate"
+    job="/usr/sbin/logrotate -s /home/pacs/{{pac}}/users/{{user}}/.logrotate.state /home/pacs/{{pac}}/users/{{user}}/.logrotate > /dev/null"
+    hour=0
+    minute=48
+    user="{{pac}}-{{user}}"
+    state=present
+    

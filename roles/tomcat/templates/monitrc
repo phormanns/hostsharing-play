@@ -1,0 +1,8 @@
+set daemon 600
+set logfile /home/pacs/{{pac}}/users/{{user}}/tomcat/logs/monit.log
+set mailserver localhost
+set alert webmaster@{{domain}}
+
+check process tomcat with pidfile /home/pacs/{{pac}}/users/{{user}}/tomcat/work/catalina.pid
+    start program "/home/pacs/{{pac}}/users/{{user}}/tomcat/bin/startup.sh"
+    stop program "/bin/kill $( cat /home/pacs/{{pac}}/users/{{user}}/tomcat/work/catalina.pid )"
