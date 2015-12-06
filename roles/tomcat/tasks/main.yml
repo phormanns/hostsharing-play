@@ -103,4 +103,16 @@
     minute=48
     user="{{pac}}-{{user}}"
     state=present
+- name: Rewrite rule to tomcat
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  template: >
+    src="htaccess"
+    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/{{item}}/.htaccess"
+    mode=0644
+  with_items:
+    - htdocs
+    - htdocs-ssl
+    - subs/www
+    - subs-ssl/www
     
