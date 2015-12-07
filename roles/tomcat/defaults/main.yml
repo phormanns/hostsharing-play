@@ -1,3 +1,3 @@
 jvm_init_heap: "64M"
-jvm_max_heap: "96M"
-jvm_max_perm: "32M"
+jvm_max_heap: "128M"
+jvm_max_perm: "64M"
