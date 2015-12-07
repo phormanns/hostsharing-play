@@ -1,9 +1,14 @@
-compress
 /home/pacs/{{pac}}/users/{{user}}/tomcat/logs/monit.log {
-  rotate 2
+  copytruncate
   monthly
+  rotate 2
+  compress
+  missingok
 }
 /home/pacs/{{pac}}/users/{{user}}/tomcat/logs/catalina.out {
-  rotate 5
+  copytruncate
   daily
+  rotate 7
+  compress
+  missingok
 }
