@@ -1,4 +1,4 @@
-version: "2.10.1"
-sha256_checksum: "edc369214cbab1663d0760e8718839afe06856c281b9e2a1fe38b5f681e12ee5"
+version: "2.10.2"
+sha256_checksum: "3d16d4a39b66faa8dbc71fbf3ec5254432689c6873d7166fe872dc94171fa266"
 wiki_name: "Mein Wiki"
 protocol: "http"

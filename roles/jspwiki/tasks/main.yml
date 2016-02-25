@@ -2,7 +2,7 @@
   sudo: yes
   sudo_user: "{{pac}}-{{user}}"
   get_url: >
-    url=http://archive.apache.org/dist/jspwiki/{{version}}/binaries/JSPWiki.war
+    url=http://archive.apache.org/dist/jspwiki/{{version}}/binaries/webapp/JSPWiki.war
     dest=/tmp/jspwiki-{{version}}.zip
     sha256sum={{sha256_checksum}}
 - name: Creating webapp directory
