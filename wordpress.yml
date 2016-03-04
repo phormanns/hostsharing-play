@@ -1,3 +1,3 @@
-- hosts: all
+- hosts: blog
   roles:
   - wordpress

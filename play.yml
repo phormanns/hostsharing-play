@@ -1,0 +1,12 @@
+- hosts: dokuwiki
+  roles:
+  - dokuwiki
+- hosts: wiki
+  roles:
+  - jspwiki
+- hosts: git
+  roles:
+  - gitblit
+- hosts: blog
+  roles:
+  - wordpress

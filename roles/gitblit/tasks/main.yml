@@ -1,0 +1,41 @@
+- name: Creating Gitblit home directory
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  file: >
+    path="/home/pacs/{{pac}}/users/{{user}}/data" 
+    state=directory
+- name: Download gitblit webapp
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  get_url: >
+    url=http://dl.bintray.com/gitblit/releases/gitblit-{{version}}.war
+    dest=/tmp/gitblit-{{version}}.zip
+    sha256sum={{sha256_checksum}}
+- name: Creating webapp directory
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  file: >
+    path=/home/pacs/{{pac}}/users/{{user}}/tomcat/webapps/ROOT 
+    state=directory
+- name: extract war file
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  unarchive: >
+    copy=no 
+    src=/tmp/gitblit-{{version}}.zip
+    dest=/home/pacs/{{pac}}/users/{{user}}/tomcat/webapps/ROOT/ 
+    creates=/home/pacs/{{pac}}/users/{{user}}/tomcat/webapps/ROOT/WEB-INF/data/gitblit-{{version}}.jar
+- name: Upload context.xml
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  template: >
+    dest=/home/pacs/{{pac}}/users/{{user}}/tomcat/conf/Catalina/{{domain}}/ROOT.xml 
+    src=context.xml 
+    mode=0644
+- name: upload gitblit properties
+  sudo: yes
+  sudo_user: "{{pac}}-{{user}}"
+  template: >
+    dest="/home/pacs/{{pac}}/users/{{user}}/data/" 
+    src="gitblit.properties" 
+    mode=0600
