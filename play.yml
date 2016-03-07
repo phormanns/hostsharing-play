@@ -1,4 +1,4 @@
-- hosts: dokuwiki
+- hosts: doku
   roles:
   - dokuwiki
 - hosts: wiki
