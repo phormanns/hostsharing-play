@@ -1,2 +1,6 @@
+DirectoryIndex disabled
 RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
 RewriteRule ^(.*) ajp://{{pac}}.hostsharing.net:{{ajp_port}}/$1 [proxy,last]
