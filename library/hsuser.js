@@ -3,12 +3,18 @@
 hsuser(arguments);
 
 function getParam(paramName, paramsString) {
-  re = new RegExp(paramName + "\=\"([^\"]*)\"");
+  re = new RegExp(paramName + "\=\'([^\']*)\'");
   matches = re.exec(paramsString);
   if (matches != null) {
     return matches[1];
   } else {
-    return null;
+    re = new RegExp(paramName + "\=([^ ]*)");
+    matches = re.exec(paramsString);
+    if (matches != null) {
+      return matches[1];
+    } else {
+      return null;
+    }
   }
 }
 
@@ -18,35 +24,50 @@ function hsuser(args) {
   reader.close();
   username = getParam("name", params);
   if (username == null) {
-    print('failed=True msg="parameter name required"');
+    print('{"failed":true,"msg":"parameter name required"}');
     return;
   }
   passwd = getParam("password", params);
   if (passwd == null) {
-    print('failed=True msg="parameter password required"');
+    print('{"failed":true,"msg":"parameter password required"}');
     return;
   }
   shouldExist = getParam("exists", params);
   if (shouldExist == null) {
-    print('failed=True msg="parameter exists with value true or false required"');
+    print('{"failed":true,"msg":"parameter exists with value true or false required"}');
     return;
   }
+  shell="/usr/bin/passwd";
   existingUsers = user.search({where:{name:username}});
   if ("false".localeCompare(shouldExist)) {
     if (existingUsers.length < 1) {
-      user.add({set:{name:username,shell:"/bin/bash",password:passwd}});
-      print("changed=True msg=added");
+      try {
+        user.add({set:{name:username,shell:shell,password:passwd}});
+        print('{"changed":true,"msg":"added"}');
+      }
+      catch (e) {
+        print('{"failed":true,"msg":"' + String(e) + '"}');
+      }
     } else {
-      user.update({where:{name:username},set:{password:passwd,shell:"/bin/bash"}});
-      print("changed=False msg=updated");
+      try {
+        user.update({where:{name:username},set:{password:passwd,shell:shell}});
+        print('{"changed":false,"msg":"updated"}');
+      }
+      catch (e) {
+        print('{"failed":true,"msg":"' + String(e) + '"}');
+      }
     }
   } else {
     if (existingUsers.length > 0) {
-      user.remove({where:{name:username}});
-      print("changed=True msg=removed");
+      try {
+        user.remove({where:{name:username}});
+        print('{"changed":true,"msg":"removed"}');
+      }
+      catch (e) {
+        print('{"failed":true,"msg":"' + String(e) + '"}');
+      }
     } else {
-      print("changed=False msg=absent");
+      print('{"changed":false,"msg":"absent"}');
     }
   }
 }
-

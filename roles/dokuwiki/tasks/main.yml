@@ -9,51 +9,51 @@
     owner="{{pac}}-{{user}}"  
     exists="true"
 - name: download dokuwiki tarball
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   get_url: >
-    url=http://download.dokuwiki.org/src/dokuwiki/dokuwiki-{{version}}.tgz
+    url=http://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
     dest=/tmp/dokuwiki-{{version}}.tgz 
 - name: extract tarball
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   unarchive: >
     copy=no 
     src="/tmp/dokuwiki-{{version}}.tgz" 
-    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/" 
-    creates="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/index.php"
+    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs-ssl/" 
+    creates="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs-ssl/www/index.php"
 - name: move to www
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   command: >
     bash -c "rm -rf www && mv dokuwiki-{{version}} www"
-    chdir="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs" 
-    creates="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/index.php"
+    chdir="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs-ssl" 
+    creates="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs-ssl/www/index.php"
 - name: upload acl.auth.php config
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   template: >
-    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/conf/acl.auth.php" 
+    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs-ssl/www/conf/acl.auth.php" 
     src="acl.auth.php" 
     mode=0600
 - name: upload local.php config
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   template: >
-    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/conf/local.php" 
+    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs-ssl/www/conf/local.php" 
     src="local.php" 
     mode=0600
 - name: upload plugins.local.php config
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   template: >
-    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/conf/plugins.local.php" 
+    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs-ssl/www/conf/plugins.local.php" 
     src="plugins.local.php" 
     mode=0600
 - name: upload users.auth.php config
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   template: >
-    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs/www/conf/users.auth.php" 
+    dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/subs-ssl/www/conf/users.auth.php" 
     src="users.auth.php" 
     mode=0600

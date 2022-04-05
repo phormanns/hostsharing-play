@@ -1,27 +1,27 @@
 - name: Download jspwiki webapp
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   get_url: >
     url=http://archive.apache.org/dist/jspwiki/{{version}}/binaries/webapp/JSPWiki.war
     dest=/tmp/jspwiki-{{version}}.zip
     sha256sum={{sha256_checksum}}
 - name: Creating webapp directory
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   file: >
     path=/home/pacs/{{pac}}/users/{{user}}/tomcat/webapps/ROOT 
     state=directory
 - name: extract war file
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   unarchive: >
     copy=no 
     src=/tmp/jspwiki-{{version}}.zip 
     dest=/home/pacs/{{pac}}/users/{{user}}/tomcat/webapps/ROOT/ 
     creates=/home/pacs/{{pac}}/users/{{user}}/tomcat/webapps/ROOT/WEB-INF/jspwiki.policy
 - name: upload wiki properties
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   template: >
     dest="/home/pacs/{{pac}}/users/{{user}}/tomcat/webapps/ROOT/WEB-INF/classes/" 
     src="jspwiki-custom.properties" 

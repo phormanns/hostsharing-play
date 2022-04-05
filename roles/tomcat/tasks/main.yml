@@ -9,14 +9,14 @@
     owner="{{pac}}-{{user}}"  
     exists="true"
 - name: Creating target directory
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   file: >
     path="/home/pacs/{{pac}}/users/{{user}}/tomcat" 
     state=directory
 - name: Creating tomcat directory structure
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   file: >
     path="/home/pacs/{{pac}}/users/{{user}}/tomcat/{{item}}"  
     state=directory
@@ -31,8 +31,8 @@
     - webapps
     - work
 - name: Copy tomcat/bin files
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   command: >
     cp "/usr/share/tomcat7/bin/{{item}}" "/home/pacs/{{pac}}/users/{{user}}/tomcat/bin/"
     creates="/home/pacs/{{pac}}/users/{{user}}/tomcat/bin/{{item}}"
@@ -41,8 +41,8 @@
     - shutdown.sh
     - catalina.sh
 - name: Copy tomcat/conf files
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   command: >
     cp "/usr/share/tomcat7/skel/conf/{{item}}" "/home/pacs/{{pac}}/users/{{user}}/tomcat/conf/"
     creates="/home/pacs/{{pac}}/users/{{user}}/tomcat/conf/{{item}}"
@@ -51,8 +51,8 @@
     - logging.properties
     - catalina.properties
 - name: Upload templates to tomcat/conf
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   template: >
     src="{{item}}"
     dest="/home/pacs/{{pac}}/users/{{user}}/tomcat/conf/{{item}}"
@@ -62,8 +62,8 @@
     - tomcat-users.xml
     - context.xml
 - name: Upload templates to tomcat/bin
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   template: >
     src="{{item}}"
     dest="/home/pacs/{{pac}}/users/{{user}}/tomcat/bin/{{item}}"
@@ -71,15 +71,15 @@
   with_items:
     - setenv.sh
 - name: Configure monit
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   template: >
     src="monitrc"
     dest="/home/pacs/{{pac}}/users/{{user}}/.monitrc"
     mode=0600
 - name: Start at reboot
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   cron: >
     name="start monit at reboot"
     job="/usr/bin/monit -c /home/pacs/{{pac}}/users/{{user}}/.monitrc > /dev/null"
@@ -87,15 +87,15 @@
     user="{{pac}}-{{user}}"
     state=present
 - name: Configure logrotate
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   template: >
     src="logrotate"
     dest="/home/pacs/{{pac}}/users/{{user}}/.logrotate"
     mode=0600
 - name: Rotate daily
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   cron: >
     name="daily logrotate"
     job="/usr/sbin/logrotate -s /home/pacs/{{pac}}/users/{{user}}/.logrotate.state /home/pacs/{{pac}}/users/{{user}}/.logrotate > /dev/null"
@@ -104,8 +104,8 @@
     user="{{pac}}-{{user}}"
     state=present
 - name: Rewrite rule to tomcat
-  sudo: yes
-  sudo_user: "{{pac}}-{{user}}"
+  become: yes
+  become_user: "{{pac}}-{{user}}"
   template: >
     src="htaccess"
     dest="/home/pacs/{{pac}}/users/{{user}}/doms/{{domain}}/{{item}}/.htaccess"
